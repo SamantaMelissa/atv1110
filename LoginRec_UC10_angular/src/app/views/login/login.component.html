@@ -1,0 +1,13 @@
+<main>
+    <form #userForm="ngForm" (ngSubmit)="onSubmit()"class="form_login">
+        <div class="inputForm">
+            <label for="email">Email</label>
+            <input [(ngModel)] ="userModel.email" type="email" name="email" placeholder="Informe seu Email">
+        </div>
+        <div class="inputForm">
+            <label for="senha">Senha</label>
+            <input [(ngModel)] ="userModel.password" type="password" name="senha" placeholder="Informe sua senha">
+        </div>
+        <button class="btn_login">Entrar</button>
+    </form>
+</main>

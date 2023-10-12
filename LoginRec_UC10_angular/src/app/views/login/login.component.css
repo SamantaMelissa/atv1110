@@ -1,0 +1,46 @@
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:500px;
+}
+.form_login{
+    background-color: rgba(255, 0, 0, 0.202);
+    width: 500px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 8px;
+}
+
+.inputForm{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 5px;
+
+}
+
+.inputForm label{
+    color: rgb(146, 28, 28);
+    margin: 5px;
+
+}
+
+.inputForm  input{
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+}
+
+.btn_login{
+    background-color: red;
+    padding: 10px 25px;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    margin-top: 20px;
+}

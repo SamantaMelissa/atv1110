@@ -1,0 +1,25 @@
+header{
+    background-color: red;
+    height: 100px ;
+
+}
+.navMenu{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.navMenu ul{
+    display: flex;
+    justify-content: space-between;
+    width: 10%;
+}
+.navMenu ul li{
+    list-style: none;
+}
+
+.navMenu ul li a{
+    color: white;
+    text-decoration: none;
+}

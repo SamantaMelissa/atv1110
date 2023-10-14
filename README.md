@@ -16,8 +16,135 @@ Se pegarmos a url: http://localhost:3000/users e colocar no nosso navegador, ele
 
 Show, nossa api está lendo as informações cadastradas no nosso “banco”. Agora bora fazer com que nosso login funcione?
 
+> Entre no arquivo “app.module.ts”;
+> Adicione um módulo do HTTPCliente do Angular.
+
+```import { HttpClientModule } from '@angular/common/http'; ```
+![image](https://github.com/SamantaMelissa/atv1110/assets/61596646/7e67f4aa-aea9-4011-b159-681559f5efa7)
+
+ O module de HttpClient nos permite a manipulação de solicitações http e suas respostas, lembram dos verbos e os números de retorno? Esse cara vai nos ajudar com isso.  
+
+> Agora podemos criar o nosso service(comunicar com a API), com o seguinte comando:
+ng generate service services/login
+
+O service no Angular é como um "ajudante" que você pode criar para realizar tarefas específicas em seu aplicativo. Essas tarefas podem ser coisas como buscar dados de um servidor, armazenar informações importantes ou qualquer ação que você precisa fazer em vários lugares do seu aplicativo.
+
+No LoginService.ts, deixe:
+```
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from '../models/user';
+// O @Injectble é usado para que o Angular saiba que essa classe é um serviço. Além disso, você pode injetar dependências no construtor do serviço, caso haja
+@Injectable({
+  providedIn: 'root'
+})
+export class LoginService {
+
+  // Injeção de dependecia -> É uma forma bem simples que nos traz tudo o que precisamos para um componente funcionar perfeitamente. E é isso que fizemos com o HttpClient.
+  constructor(private httpClient: HttpClient ) {}
+
+  url = "http://localhost:3000/login"
+
+  // Como estamos usando uma API externa e não sabemos os dados trabalhados, o Observable<any> permite que você trabalhe com esses dados de forma genérica.
+// o argumento usuário é do tipo User.
+  login(usuario: User): Observable<any>{
+    // post -> cria
+// O stringify, nessa situação está transformando o objeto “usuário” em um valor JSON. 
+    return this.httpClient.post(this.url, JSON.stringify(usuario), {
+//Cabeçalhos
+      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+      // O uso do observe: "response" faz com que nosso retorno tenha as informações do cabeçalho e o status code. Isso indica que você deseja observar a resposta completa da solicitação, incluindo o status HTTP, os cabeçalhos e o corpo da resposta. Se você configurar observe: "body" em vez disso, apenas o corpo da resposta será observado. 
+      observe: "response"
+    })
+  }
+}
+```
+Service criado e implementamos o login
+Agora vamos usar o service na nossa class…
 
 
+
+
+Em login.component.ts:
+O que queremos é que assim que nosso usuário fizer o login e retornar OK, ele irá ser DIRECIONADO a tela de contatos. Ok? No projeto de vocês, essa rota será para a home page.  
+Primeiro passo, vamos importar o Router. 
+![image](https://github.com/SamantaMelissa/atv1110/assets/61596646/00b82688-7822-415c-ad3c-6801708ee73a)
+
+Segundo passo, injetar dependência do uso do router. 
+![image](https://github.com/SamantaMelissa/atv1110/assets/61596646/f5d42c45-421a-455e-a3be-432d042e74da)
+
+```
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
+import { LoginService } from 'src/app/services/login.service';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent{
+
+  constructor(private loginService : LoginService, private router : Router){}
+    
+    mensagemok = "Deu certo!"
+    mensagemERRO = " "
+   
+
+    // Instanciando uma classe:
+    userModel = new User()
+
+    onSubmit(){
+      // O subscribe é um operador do Observable.Ao usar ele, estamos falando que, assim que nossa requisição for realizada e nosso texto se transformar em JSON, seremos notificados, e além disso, receberemos as informações do usuários. Esse cara faz tudo de forma rápida e unidimencional. 
+
+// Estaremos renderizando de forma condicional, isto é, algo será mostrado na dela, se erro:
+// O método .subscribe permite que você observe os resultados da solicitação.
+      this.loginService.login(this.userModel).subscribe((response) => {
+        // Se ok:
+        console.log(this.mensagemok)
+        this.router.navigateByUrl("/")
+      },(respErro) => {
+        // Se erro:
+        this.mensagemERRO = respErro.error
+// Caso seja interessante:
+        if(this.mensagemERRO == 'Password is too short'){
+          this.mensagemERRO = "A senha está muitooo pequena!"
+          this.dicas = " Utilize mais de três caractéres"
+        }else{
+          this.dicas = ""
+        }
+      })
+    }
+  
+}
+
+
+```
+
+Agora, no nosso HTML:
+```
+<main>
+    <form #userForm="ngForm" (ngSubmit)="onSubmit()"class="form_login">
+        <div class="inputForm">
+            <label for="email">Email</label>
+            <input [(ngModel)] ="userModel.email" type="email" name="email" placeholder="Informe seu Email">
+        </div>
+        <div class="inputForm">
+            <label for="senha">Senha</label>
+            <input [(ngModel)] ="userModel.password" type="password" name="senha" placeholder="Informe sua senha">
+        </div>
+        <button class="btn_login">Entrar</button>
+    </form>
+    <p id="mensagem" *ngIf=" mensagemERRO != ' ' " >{{mensagemERRO}}</p>
+</main>
+```
+
+
+
+
+ 
 # Atividade de teste de FrontEnd usando o JMeter
 
 1- A gente vai fazer uma atividade relacionada ao Jmeter em relação a teste de

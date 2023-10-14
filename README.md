@@ -1,5 +1,20 @@
 # Atividade da UC10 usando angular + consumo de API
+Clone em um repositório local este projeto:
+https://github.com/SamantaMelissa/Atv_LginUC10_REC
 
+Em eguida, no projeto, instale o json-server:
+npm install -D json-server json-server-auth
+
+> Crie um arquivo db.json para armazenar os dados dos usuário
+![image](https://github.com/SamantaMelissa/atv1110/assets/61596646/3f808242-f958-4935-bc46-9a464b259ffc)
+
+> E em seguida, rodar a API com o seguinte comando:
+json-server db.json -m ./node_modules/json-server-auth
+
+Se pegarmos a url: http://localhost:3000/users e colocar no nosso navegador, ele vai retornar pra gente as informações.
+![image](https://github.com/SamantaMelissa/atv1110/assets/61596646/b1225434-4d1c-480c-8b12-9c4df28f176e)
+
+Show, nossa api está lendo as informações cadastradas no nosso “banco”. Agora bora fazer com que nosso login funcione?
 
 
 

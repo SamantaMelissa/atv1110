@@ -2,6 +2,8 @@
 Clone em um repositório local este projeto:
 https://github.com/SamantaMelissa/Atv_LginUC10_REC
 
+E lembre! Quando clonar um projeto exclua o arquivo .git e dê o comando ``` npm install ``` para baixar todos os pacotes a serem utilizados.
+
 Em eguida, no projeto, instale o json-server:
 npm install -D json-server json-server-auth
 

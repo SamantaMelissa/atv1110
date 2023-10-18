@@ -182,7 +182,7 @@ npm install -g json-server
 
 E para executarmos aqui projeto da API do index o comando vai ser:
 
-npm install -h http-server
+npm install -g http-server
 
 
 Agora nós vamos precisar de 2 CMDs, um para executar o json-server e outro para
